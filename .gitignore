@@ -16,5 +16,6 @@ profile.tmp
 /.vs/VSWorkspaceState.json
 /.ros/log
 /.ros
+/ros/src/CMakeLists.txt
 /sys_int.exe - Shortcut.lnk
 
