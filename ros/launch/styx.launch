@@ -18,6 +18,12 @@
     <!--Traffic Light Detector Node -->
     <include file="$(find tl_detector)/launch/tl_detector.launch"/>
 
+    <!--Path to Traffic Light Detector graph -->
+    <param name="tl_graph" value="$(find tl_detector)/light_classification/frozen_models/frozen_sim_mobile-5000/frozen_inference_graph.pb" />
+
+    <!--Path to Traffic Light Detector labels -->
+    <param name="tl_graph_labels" value="$(find tl_detector)/light_classification/frozen_models/label_map.pbtxt" />
+    
     <!--Traffic Light Locations and Camera Config -->
     <param name="traffic_light_config" textfile="$(find tl_detector)/sim_traffic_light_config.yaml" />
     <param name="enable_statistics" value="True" />
