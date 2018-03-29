@@ -1,3 +1,4 @@
+import tl_impl
 from styx_msgs.msg import TrafficLight
 
 class TLClassifier(object):
