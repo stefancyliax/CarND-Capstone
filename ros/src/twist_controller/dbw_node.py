@@ -57,8 +57,8 @@ class DBWNode(object):
 
         # TODO: Create `Controller` object
         # self.controller = Controller(<Arguments you wish to provide>)
-        self.controller = Controller(wheel_base, steer_ratio, max_lat_accel, max_steer_angle)
-
+        self.controller = Controller(wheel_base, steer_ratio, max_lat_accel, max_steer_angle,
+                                     vehicle_mass, fuel_capacity, wheel_radius, brake_deadband, decel_limit, accel_limit)
 
         # TODO: Subscribe to all the topics you need to
         # twist_cmd, enabled, current_velocity
@@ -67,7 +67,6 @@ class DBWNode(object):
         rospy.Subscriber('/twist_cmd', TwistStamped, self.twist_cmd_callback)
         rospy.Subscriber('/current_velocity', TwistStamped,
                          self.current_velocity_callback)
-        
 
         self.dbw_enabled = False
         self.previous_time = None
@@ -75,7 +74,6 @@ class DBWNode(object):
         self.current_linear_velocity = 0
         self.planned_linear_velocity = 0
 
-        self.current_angular_velocity = 0
         self.planned_angular_velocity = 0
 
         # rostopic info /vehicle/dbw_enabled
@@ -119,26 +117,19 @@ class DBWNode(object):
         rate = rospy.Rate(50)  # 50Hz
         while not rospy.is_shutdown():
             now = rospy.get_rostime()
-            if self.previous_time == None: # catch first iteration when we don't have a previous time stamp
+            if self.previous_time == None:  # catch first iteration when we don't have a previous time stamp
                 self.previous_time = now
             else:
-                dt = now - self.previous_time # calculate time since last time stamp
+                dt = now - self.previous_time  # calculate time since last time stamp
                 dt = dt.to_sec()
-                self.previous_time = now # update previous time stamp
+                self.previous_time = now  # update previous time stamp
                 # rospy.logwarn('loop! current_velocity: %s, planned_velocity: %s', self.current_linear_velocity, self.planned_linear_velocity)
                 # rospy.logwarn('current_angular_velocity: %s, planned_angular_velocity: %s', self.current_angular_velocity, self.planned_angular_velocity)
                 # rospy.logwarn('time passed %s', dt)
 
-            
+                throttle, brake, steering = self.controller.control(
+                    self.planned_linear_velocity, self.planned_angular_velocity, self.current_linear_velocity, dt)
 
-                throttle, brake, steering = self.controller.control(self.planned_linear_velocity, self.planned_angular_velocity, self.current_linear_velocity, dt)
-                # TODO: Get predicted throttle, brake, and steering using `twist_controller`
-                # You should only publish the control commands if dbw is enabled
-                # throttle, brake, steering = self.controller.control(<proposed linear velocity>,
-                #                                                     <proposed angular velocity>,
-                #                                                     <current linear velocity>,
-                #                                                     <dbw status>,
-                #                                                     <any other argument you need>)
                 if self.dbw_enabled:
                     self.publish(throttle, brake, steering)
             rate.sleep()
@@ -164,7 +155,7 @@ class DBWNode(object):
     def dbw_enable_callback(self, msg):
         self.dbw_enabled = msg.data
         self.controller.reset_pid()
-        rospy.logwarn('Drive by wire enabled: %s', self.dbw_enabled) 
+        rospy.logwarn('Drive by wire enabled: %s', self.dbw_enabled)
 
     def twist_cmd_callback(self, msg):
         self.planned_linear_velocity = msg.twist.linear.x
@@ -172,10 +163,6 @@ class DBWNode(object):
 
     def current_velocity_callback(self, msg):
         self.current_linear_velocity = msg.twist.linear.x
-        self.current_angular_velocity = msg.twist.angular.z
-        if msg.twist.linear.x > 12:
-            # rospy.logwarn('Speed limit violation')
-            pass
 
 
 if __name__ == '__main__':
