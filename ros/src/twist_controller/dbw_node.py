@@ -55,13 +55,11 @@ class DBWNode(object):
         self.brake_pub = rospy.Publisher('/vehicle/brake_cmd',
                                          BrakeCmd, queue_size=1)
 
-        # TODO: Create `Controller` object
-        # self.controller = Controller(<Arguments you wish to provide>)
+        # init controller
         self.controller = Controller(wheel_base, steer_ratio, max_lat_accel, max_steer_angle,
                                      vehicle_mass, fuel_capacity, wheel_radius, brake_deadband, decel_limit, accel_limit)
 
-        # TODO: Subscribe to all the topics you need to
-        # twist_cmd, enabled, current_velocity
+        # subscribe to all topics needed: twist_cmd, enabled, current_velocity
         rospy.Subscriber('/vehicle/dbw_enabled', Bool,
                          self.dbw_enable_callback)
         rospy.Subscriber('/twist_cmd', TwistStamped, self.twist_cmd_callback)
@@ -73,43 +71,7 @@ class DBWNode(object):
 
         self.current_linear_velocity = 0
         self.planned_linear_velocity = 0
-
         self.planned_angular_velocity = 0
-
-        # rostopic info /vehicle/dbw_enabled
-        # Type: std_msgs/Bool
-        # Publishers:
-        #  * /styx_server (http://Stefans-HTPC:40211/)
-
-        # rostopic info /twist_cmd
-        # Type: geometry_msgs/TwistStamped
-        # Publishers:
-        #  * /pure_pursuit (http://Stefans-HTPC:38067/)
-
-        # rostopic info /current_velocity
-        # Type: geometry_msgs/TwistStamped
-        # Publishers:
-        # * /styx_server (http://Stefans-HTPC:40211/)
-        # Subscribers:
-        # * /pure_pursuit (http://Stefans-HTPC:38067/)
-
-        # rosmsg info geometry_msgs/TwistStamped
-        # std_msgs/Header header
-        # uint32 seq
-        # time stamp
-        # string frame_id
-        # geometry_msgs/Twist twist
-        # geometry_msgs/Vector3 linear
-        #     float64 x
-        #     float64 y
-        #     float64 z
-        # geometry_msgs/Vector3 angular
-        #     float64 x
-        #     float64 y
-        #     float64 z
-
-        # rosmsg info std_msgs/Bool
-        # bool data
 
         self.loop()
 
