@@ -6,6 +6,7 @@ import csv
 import rospy
 from std_msgs.msg import Bool
 from dbw_mkz_msgs.msg import ThrottleCmd, SteeringCmd, BrakeCmd, SteeringReport
+from geometry_msgs.msg import TwistStamped
 
 
 '''
@@ -34,6 +35,9 @@ class DBWTestNode(object):
 
         rospy.Subscriber('/vehicle/dbw_enabled', Bool, self.dbw_enabled_cb)
 
+        rospy.Subscriber('/twist_cmd', TwistStamped, self.twist_cmd_callback)
+        rospy.Subscriber('/current_velocity', TwistStamped, self.current_velocity_callback)
+
         self.steer = self.throttle = self.brake = None
 
         self.steer_data = []
@@ -53,7 +57,7 @@ class DBWTestNode(object):
         rate = rospy.Rate(10) # 10Hz
         while not rospy.is_shutdown():
             rate.sleep()
-        fieldnames = ['actual', 'proposed']
+        fieldnames = ['actual', 'proposed', 'current speed', 'planned_speed', 'PID']
 
         with open(self.steerfile, 'w') as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
@@ -91,7 +95,9 @@ class DBWTestNode(object):
     def actual_throttle_cb(self, msg):
         if self.dbw_enabled and self.throttle is not None:
             self.throttle_data.append({'actual': msg.pedal_cmd,
-                                       'proposed': self.throttle})
+                                       'proposed': self.throttle,
+                                       'current speed': self.current_linear_velocity,
+                                       'planned_speed': self.planned_linear_velocity})
             self.throttle = None
 
     def actual_brake_cb(self, msg):
@@ -99,7 +105,14 @@ class DBWTestNode(object):
             self.brake_data.append({'actual': msg.pedal_cmd,
                                     'proposed': self.brake})
             self.brake = None
+    
+    def twist_cmd_callback(self, msg):
+        self.planned_linear_velocity = msg.twist.linear.x
+        # self.planned_angular_velocity = msg.twist.angular.z
 
+    def current_velocity_callback(self, msg):
+        self.current_linear_velocity = msg.twist.linear.x
+        # self.current_angular_velocity = msg.twist.angular.z
 
 if __name__ == '__main__':
     DBWTestNode()
