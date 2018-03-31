@@ -34,7 +34,7 @@ class Controller(object):
         ts = 0.02
         self.velocity_lowpass = LowPassFilter(tau, ts)
         
-    def control(self, planned_linear_velocity, planned_angular_velocity, current_linear_velocity, dt, dbw_enabled):
+    def control(self, planned_linear_velocity, planned_angular_velocity, current_linear_velocity, dt):
         # Return throttle, brake, steer
         
         # use yaw controller
@@ -68,10 +68,10 @@ class Controller(object):
             # not useful! What is brake_deadbands purpose?
             # if brake < brake_force_deadband: # if brake force is below deadband, then just coast
             #     brake = 0
-        if dbw_enabled:
-            rospy.logwarn('current_velocity: %3.1f, planned_velocity: %3.1f', current_linear_velocity, planned_linear_velocity)
-            rospy.logwarn('current acceleration_cmd: %s, throttle: %s, brake: %s', acceleration_cmd, throttle, brake)
-            rospy.logwarn('current steering command: %s', steering_cmd)
+        # if dbw_enabled:
+        #     rospy.logwarn('current_velocity: %3.1f, planned_velocity: %3.1f', current_linear_velocity, planned_linear_velocity)
+        #     rospy.logwarn('current acceleration_cmd: %s, throttle: %s, brake: %s', acceleration_cmd, throttle, brake)
+        #     rospy.logwarn('current steering command: %s', steering_cmd)
             
         return throttle, brake, steering_cmd
     

@@ -60,11 +60,9 @@ class DBWNode(object):
                                      vehicle_mass, fuel_capacity, wheel_radius, brake_deadband, decel_limit, accel_limit)
 
         # subscribe to all topics needed: twist_cmd, enabled, current_velocity
-        rospy.Subscriber('/vehicle/dbw_enabled', Bool,
-                         self.dbw_enable_callback, queue_size=1)
-        rospy.Subscriber('/twist_cmd', TwistStamped, self.twist_cmd_callback, queue_size=1)
-        rospy.Subscriber('/current_velocity', TwistStamped,
-                         self.current_velocity_callback, queue_size=1)
+        rospy.Subscriber('/vehicle/dbw_enabled', Bool, self.dbw_enable_callback)
+        rospy.Subscriber('/twist_cmd', TwistStamped, self.twist_cmd_callback)
+        rospy.Subscriber('/current_velocity', TwistStamped, self.current_velocity_callback)
 
         self.dbw_enabled = False
         self.previous_time = None
@@ -90,7 +88,7 @@ class DBWNode(object):
                 # rospy.logwarn('time passed %s', dt)
 
                 throttle, brake, steering = self.controller.control(
-                    self.planned_linear_velocity, self.planned_angular_velocity, self.current_linear_velocity, dt, self.dbw_enabled)
+                    self.planned_linear_velocity, self.planned_angular_velocity, self.current_linear_velocity, dt)
 
                 if self.dbw_enabled:
                     self.publish(throttle, brake, steering)
