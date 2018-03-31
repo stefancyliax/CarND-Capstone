@@ -1,10 +1,17 @@
-import tl_impl
+from impl import tl_classifier as impl
 from styx_msgs.msg import TrafficLight
 
 class TLClassifier(object):
-    def __init__(self):
+    map_to_styx = {
+        'red': TrafficLight.RED,
+        'yellow': TrafficLight.YELLOW,
+        'green': TrafficLight.GREEN,
+        'none': TrafficLight.NONE
+    }
+
+    def __init__(self, path_to_graph):
         #TODO load classifier
-        pass
+        self.impl = impl.TlClassifier(path_to_graph)
 
     def get_classification(self, image):
         """Determines the color of the traffic light in the image
@@ -17,4 +24,4 @@ class TLClassifier(object):
 
         """
         #TODO implement light color prediction
-        return TrafficLight.UNKNOWN
+        return s_map_to_styx_msg[self.impl.get_classification(image)]
