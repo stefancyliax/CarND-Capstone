@@ -62,15 +62,16 @@ class Controller(object):
             brake = abs(acceleration_cmd*500) ## from 0 to 20000 Nm
             brake_force_limit = self.wheel_radius * self.vehicle_mass * abs(self.decel_limit)
             brake_force_deadband = brake_force_limit * self.brake_deadband
-            rospy.logerr('brake before limit: %s', brake)
+            # rospy.logerr('brake before limit: %s', brake)
 
             brake = min(brake_force_limit, brake)
             # not useful! What is brake_deadbands purpose?
             # if brake < brake_force_deadband: # if brake force is below deadband, then just coast
             #     brake = 0
-
-        rospy.logwarn('current_velocity: %s, planned_velocity: %s', current_linear_velocity, planned_linear_velocity)
-        rospy.logwarn('current acceleration_cmd: %s, throttle: %s, brake: %s', acceleration_cmd, throttle, brake)
+        # if dbw_enabled:
+        #     rospy.logwarn('current_velocity: %3.1f, planned_velocity: %3.1f', current_linear_velocity, planned_linear_velocity)
+        #     rospy.logwarn('current acceleration_cmd: %s, throttle: %s, brake: %s', acceleration_cmd, throttle, brake)
+        #     rospy.logwarn('current steering command: %s', steering_cmd)
             
         return throttle, brake, steering_cmd
     

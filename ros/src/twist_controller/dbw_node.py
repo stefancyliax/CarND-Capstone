@@ -60,11 +60,9 @@ class DBWNode(object):
                                      vehicle_mass, fuel_capacity, wheel_radius, brake_deadband, decel_limit, accel_limit)
 
         # subscribe to all topics needed: twist_cmd, enabled, current_velocity
-        rospy.Subscriber('/vehicle/dbw_enabled', Bool,
-                         self.dbw_enable_callback)
+        rospy.Subscriber('/vehicle/dbw_enabled', Bool, self.dbw_enable_callback)
         rospy.Subscriber('/twist_cmd', TwistStamped, self.twist_cmd_callback)
-        rospy.Subscriber('/current_velocity', TwistStamped,
-                         self.current_velocity_callback)
+        rospy.Subscriber('/current_velocity', TwistStamped, self.current_velocity_callback)
 
         self.dbw_enabled = False
         self.previous_time = None

@@ -41,7 +41,7 @@ class WaypointUpdater(object):
         rospy.Subscriber('/traffic_waypoint', Int32, self.traffic_cb)
         rospy.Subscriber('/obstacle_waypoint', Int32, self.obstacle_cb)
 
-        self.final_waypoints_pub = rospy.Publisher('final_waypoints', Lane, queue_size=1)
+        self.final_waypoints_pub = rospy.Publisher('/final_waypoints', Lane, queue_size=1)
         
         self.loop()
 
@@ -51,7 +51,7 @@ class WaypointUpdater(object):
         while not rospy.is_shutdown():
             if self.pose and self.base_lane and self.waypoint_tree:
                 self.publish_waypoints()
-            rate.sleep
+            rate.sleep()
 
     def get_closest_waypoint_idx(self):
         x = self.pose.pose.position.x
