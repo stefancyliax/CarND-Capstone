@@ -1,4 +1,4 @@
-import impl.tl_classifier as impl
+import impl.tl_classifier
 import cv2
 from styx_msgs.msg import TrafficLight
 
@@ -12,7 +12,7 @@ class TLClassifier(object):
 
     def __init__(self, path_to_graph):
         #TODO load classifier
-        self.impl = impl.TlClassifier(path_to_graph)
+        self.impl = impl.tl_classifier.TLClassifier(path_to_graph)
 
     def get_classification(self, image):
         """Determines the color of the traffic light in the image
