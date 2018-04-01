@@ -39,7 +39,7 @@ class TLClassifier(object):
         self.graph, self.config = TLClassifier._init_graph(path_to_graph)
         self.image_tensor, self.other_tensors = TLClassifier._init_tensors(self.graph)
         self.session = tf.Session(graph=self.graph, config=self.config)
-        return super().__init__(*args, **kwargs)
+        
 
     def _get_class_name(self, idx):
         return self.c_category_index[idx]
