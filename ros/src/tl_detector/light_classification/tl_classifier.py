@@ -1,12 +1,13 @@
-from impl import tl_classifier as impl
+import impl.tl_classifier as impl
+import cv2
 from styx_msgs.msg import TrafficLight
 
 class TLClassifier(object):
-    map_to_styx = {
+    c_map_to_styx_msg = {
         'red': TrafficLight.RED,
         'yellow': TrafficLight.YELLOW,
         'green': TrafficLight.GREEN,
-        'none': TrafficLight.NONE
+        'none': TrafficLight.UNKNOWN
     }
 
     def __init__(self, path_to_graph):
@@ -24,4 +25,5 @@ class TLClassifier(object):
 
         """
         #TODO implement light color prediction
-        return s_map_to_styx_msg[self.impl.get_classification(image)]
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        return self.c_map_to_styx_msg[self.impl.get_classification(image)]
