@@ -1,0 +1,22 @@
+{
+    "version": "0.2.1",
+    "defaults": {},
+    "configurations": [
+        {
+            "type": "python",
+            "interpreter": "(default)",
+            "interpreterArguments": "",
+            "scriptArguments": "",
+            "nativeDebug": false,
+            "webBrowserUrl": "",
+            "project": "ros\\src\\tl_detector\\test\\test_tl_classifier.py",
+            "name": "test_tl_classifier.py",
+            "environment": [
+                {
+                    "name": "TF_CPP_MIN_LOG_LEVEL",
+                    "value": "3"
+                }
+            ]
+        }
+    ]
+}
