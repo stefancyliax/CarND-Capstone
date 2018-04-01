@@ -19,7 +19,7 @@
     <include file="$(find tl_detector)/launch/tl_detector.launch"/>
 
     <!--Path to Traffic Light Detector graph -->
-    <param name="tl_graph" value="$(find tl_detector)/light_classification/frozen_models/frozen_sim_mobile-5000/frozen_inference_graph.pb" />
+    <param name="path_to_graph" value="$(find tl_detector)/light_classification/frozen_models/frozen_sim_inception-5000/frozen_inference_graph.pb" />
 
     <!--Path to Traffic Light Detector labels -->
     <param name="tl_graph_labels" value="$(find tl_detector)/light_classification/frozen_models/label_map.pbtxt" />
