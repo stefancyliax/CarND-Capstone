@@ -8,6 +8,9 @@ class TLDetector(object):
         else:
             self.wp_tree = None
         
+    def is_ready(self):
+        return self.wp_tree is not None
+
     def get_closest_waypoint(self, wp_2d):
         if self.wp_tree is None:
             raise ValueError("TLDetector not initialized!")
