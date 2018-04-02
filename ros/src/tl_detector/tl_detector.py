@@ -120,7 +120,7 @@ class TLDetector(object):
         
         pos = [self.pose.pose.position.x, self.pose.pose.position.y]
         
-        #print("Invoking get_closest_waypoint({0})".format(pos))
+        #print("Invoking self.impl.get_closest_waypoint({0})".format(pos))
 
         return self.impl.get_closest_waypoint(pos)
 
@@ -152,20 +152,27 @@ class TLDetector(object):
             int: ID of traffic light color (specified in styx_msgs/TrafficLight)
 
         """
-        light = None
 
-        # List of positions that correspond to the line to stop in front of for a given intersection
-        stop_line_positions = self.config['stop_line_positions']
+        #Closest_light has type of TrafficLigth, but it is completely irrelevant what it contains since it is not used anywhere in the algorithm. Let's just treat it as proxy which can be None or not None. It is retrieved from the member self.lights which is set by lights_cb
+        light_wp_idx, closest_light = -1, None
+
         if(self.pose):
-            car_position = self.get_closest_waypoint(self.pose.pose)
+            #TODO find the closest visible traffic light (if one exists)
 
-        #TODO find the closest visible traffic light (if one exists)
+            #print("Invoking self.impl.get_closest_traffic_light({0}, {1}, {2})".format([self.pose.pose.position.x, self.pose.pose.position.y], self.lights, self.config['stop_line_positions']))
 
-        if light:
-            state = self.get_light_state(light)
-            return light_wp, state
-        self.waypoints = None
-        return -1, TrafficLight.UNKNOWN
+            light_wp_idx, closest_light = self.impl.get_closest_traffic_light(
+                [self.pose.pose.position.x, self.pose.pose.position.y],
+                self.lights,
+                # List of positions that correspond to the line to stop in front of for a given intersection
+                self.config['stop_line_positions'])
+
+        if closest_light:
+            state = self.get_light_state(closest_light)
+            return light_wp_idx, state
+        else:
+            return -1, TrafficLight.UNKNOWN
+
 
 if __name__ == '__main__':
     try:
