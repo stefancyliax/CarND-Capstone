@@ -7,6 +7,7 @@ from styx_msgs.msg import Lane
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 from light_classification.tl_classifier import TLClassifier
+import impl.tl_detector as tl_impl
 import tf
 import cv2
 import yaml
@@ -49,6 +50,7 @@ class TLDetector(object):
         self.last_wp = -1
         self.state_count = 0
 
+        self.impl = tl_impl.TLDetector()
         rospy.spin()
 
     def pose_cb(self, msg):
@@ -65,6 +67,7 @@ class TLDetector(object):
             of the waypoint closest to the red light's stop line to /traffic_waypoint
 
         Args:
+            msg (Image): image from car-mounted camera
             msg (Image): image from car-mounted camera
 
         """
