@@ -113,6 +113,8 @@ class TLDetector(object):
             int: index of the closest waypoint in self.waypoints
 
         """
+        #TODO implement
+
         if not self.pose:
             raise ValueError("Pose not initialized!")
         
