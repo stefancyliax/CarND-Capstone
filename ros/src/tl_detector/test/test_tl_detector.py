@@ -18,7 +18,8 @@ class TestTLDetector(unittest.TestCase):
         'hor_line' : [[0,0], [1,0], [2,0], [3,0]],
         'ver_line' : [[0,0], [0,1], [0,2], [0,3]],
         'diag_line' : [[0,0], [1,1], [2,2], [3,3]],
-        'L_line' : [[0,0], [1,0], [1,1]]
+        'L_line' : [[0,0], [1,0], [1,1]],
+        'L_line_long' : [[0,0], [1,0], [1,1], [2,1], [2,2], [3,2]]
     }
 
     def test_hor_line_get_closest_waypoint_delivers_expected_values(self):
@@ -85,8 +86,71 @@ class TestTLDetector(unittest.TestCase):
         act = []
         for query, idx in exp:
             act.append((query, sut.get_closest_waypoint(query)))
-
         self.assertEqual(exp, act)
 
+    def test_L_line_long_closest_traffic_lights_deliver_expected_values(self):
+        sut = tl_impl.TLDetector(self.c_waypoints_2d['L_line_long'])
+
+        # mocks the TrafficLight list
+        c_lights = [0,
+            1,
+            2,
+            3,
+            4
+        ]
+
+        # position of stop lines for respective traffic light len(c_lights) == len(c_lights_stop_lines_2d)
+        c_lights_stop_lines_2d = [
+            [0.25, -0.25],
+            [0.75, 0.25],
+            [2.25, 0.75],
+            [2.25, 1.75],
+            [3.25, 1.75]
+        ]
+
+        # position, closest wp, light 
+        exp = [
+            ([0.25, -0.25], 0, 0),
+            ([0.75, 0.25], 1, 1),
+            ([2.25, 0.75], 3, 2),
+            ([2.25, 1.75], 4, 3),
+            ([3.25, 1.75], 5, 4)
+        ]
+
+        act = []
+        for pos_2d, exp_wp_idx, exp_closest_light in exp:
+            act_wp_idx, act_closest_light = sut.get_closest_traffic_light(pos_2d, c_lights, c_lights_stop_lines_2d)
+            act.append((pos_2d, act_wp_idx, act_closest_light))
+        self.assertEqual(exp, act)
+
+    def test_diag_line_closest_traffic_lights_deliver_expected_values(self):
+        sut = tl_impl.TLDetector(self.c_waypoints_2d['diag_line'])
+
+        # mocks the TrafficLight list
+        c_lights = [
+            0,
+            1
+        ]
+
+        # position of stop lines for respective traffic light len(c_lights) == len(c_lights_stop_lines_2d)
+        c_lights_stop_lines_2d = [
+            [0, 0],
+            [1, 1]
+        ]
+
+        # position, closest wp, light 
+        exp = [
+            ([0, 0], 0, 0),
+            ([0.75, 0.75], 1, 1),
+            ([2.5, 2.5], -1, None),
+            ([3, 3], -1, None)
+        ]
+
+        act = []
+        for pos_2d, exp_wp_idx, exp_closest_light in exp:
+            act_wp_idx, act_closest_light = sut.get_closest_traffic_light(pos_2d, c_lights, c_lights_stop_lines_2d)
+            act.append((pos_2d, act_wp_idx, act_closest_light))
+        self.assertEqual(exp, act)
+    
 if __name__ == '__main__':
     unittest.main(verbosity=2)
