@@ -60,7 +60,7 @@ class TLDetector(object):
     def waypoints_cb(self, waypoints):
         self.waypoints = waypoints
 
-        print("TLDetector is ready: {0}".format(self.impl.is_ready()))
+        #print("TLDetector is ready: {0}".format(self.impl.is_ready()))
 
         if not self.impl.is_ready():
             wps = self.waypoints
@@ -68,6 +68,7 @@ class TLDetector(object):
             self.impl = tl_impl.TLDetector(wps_2d)
             if not self.impl.is_ready():
                 raise ValueError("tl_impl.TLDetector could not be initialized!")
+
     def traffic_cb(self, msg):
         self.lights = msg.lights
 
@@ -112,8 +113,14 @@ class TLDetector(object):
             int: index of the closest waypoint in self.waypoints
 
         """
-        #TODO implement
-        return 0
+        if not self.pose:
+            raise ValueError("Pose not initialized!")
+        
+        pos = [self.pose.pose.position.x, self.pose.pose.position.y]
+        
+        #print("Invoking get_closest_waypoint({0})".format(pos))
+
+        return self.impl.get_closest_waypoint(pos)
 
     def get_light_state(self, light):
         """Determines the current color of the traffic light
