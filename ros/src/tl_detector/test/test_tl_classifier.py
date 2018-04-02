@@ -1,8 +1,9 @@
 import os, sys
-import tensorflow as tf
 sys.path.append(os.path.abspath(os.path.join('..')))
 
 import light_classification.impl.tl_classifier as lc_impl
+
+import tensorflow as tf
 import cv2
 import unittest
 
