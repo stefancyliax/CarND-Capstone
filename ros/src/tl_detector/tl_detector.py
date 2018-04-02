@@ -22,6 +22,8 @@ class TLDetector(object):
         self.waypoints = None
         self.camera_image = None
         self.lights = []
+        # Empty detector
+        self.impl = tl_impl.TLDetector()
 
         sub1 = rospy.Subscriber('/current_pose', PoseStamped, self.pose_cb)
         sub2 = rospy.Subscriber('/base_waypoints', Lane, self.waypoints_cb)
@@ -50,7 +52,6 @@ class TLDetector(object):
         self.last_wp = -1
         self.state_count = 0
 
-        self.impl = tl_impl.TLDetector()
         rospy.spin()
 
     def pose_cb(self, msg):
@@ -59,6 +60,14 @@ class TLDetector(object):
     def waypoints_cb(self, waypoints):
         self.waypoints = waypoints
 
+        print("TLDetector is ready: {0}".format(self.impl.is_ready()))
+
+        if not self.impl.is_ready():
+            wps = self.waypoints
+            wps_2d = [[wp.pose.pose.position.x, wp.pose.pose.position.y] for wp in wps.waypoints]
+            self.impl = tl_impl.TLDetector(wps_2d)
+            if not self.impl.is_ready():
+                raise ValueError("tl_impl.TLDetector could not be initialized!")
     def traffic_cb(self, msg):
         self.lights = msg.lights
 
