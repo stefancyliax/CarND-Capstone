@@ -22,8 +22,8 @@ as well as to verify your TL classifier.
 TODO (for Yousuf and Aaron): Stopline location for each traffic light.
 '''
 
-LOOKAHEAD_WPS = 200     # Number of waypoints we will publish. You can change this number
-UPDATE_RATE = 50        # Frequency of waypoint updater
+LOOKAHEAD_WPS = 30     # Number of waypoints we will publish. You can change this number
+UPDATE_RATE = 5        # Frequency of waypoint updater
 MAX_DECEL = .5          # Maximum deceleration
 
 class WaypointUpdater(object):

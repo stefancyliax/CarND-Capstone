@@ -24,9 +24,9 @@ class Controller(object):
         self.yaw_controller = YawController(self.wheel_base, self.steer_ratio, 0.1, self.max_lat_accel, self.max_steer_angle)
 
         # Init PID controller
-        kP = 0.5
+        kP = 0.4
         kI = 0.0
-        kD = 0.0
+        kD = 0.2
         self.pid_controller = PID(kP, kI, kD)
         
         # init low pass filter 
@@ -47,19 +47,19 @@ class Controller(object):
 
         throttle = brake = 0.0
 
-        if planned_linear_velocity == 0. and current_linear_velocity < 0.1:
+        if planned_linear_velocity == 0. and current_linear_velocity < 0.2:
             # hold vehicle statinary
             throttle = 0.
             brake = 400 # Nm
         elif acceleration_cmd > 0:
             # accelerate! Set throttle to positive value and brake to zero
-            throttle = min(acceleration_cmd, self.accel_limit) ## set throttle to 1 above a velocity difference of 5 m/s
+            throttle = min(acceleration_cmd, self.accel_limit) ## limit the throttle to the max acceleration 
             brake = 0.0
 
         else:
             # brake! 
             throttle = 0.0
-            brake = abs(acceleration_cmd*500) ## from 0 to 20000 Nm
+            brake = abs(acceleration_cmd*200) ## from 0 to 20000 Nm
             brake_force_limit = self.wheel_radius * self.vehicle_mass * abs(self.decel_limit)
             brake_force_deadband = brake_force_limit * self.brake_deadband
             # rospy.logerr('brake before limit: %s', brake)
