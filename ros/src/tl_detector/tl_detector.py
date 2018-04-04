@@ -146,6 +146,8 @@ class TLDetector(object):
         #print("Invoking self.light_classifier.get_classification()");
         cls_id = self.light_classifier.get_classification(cv_image)
         #print("-> {0}".format(cls_id))
+        
+        return cls_id
 
     def process_traffic_lights(self):
         """Finds closest visible traffic light, if one exists, and determines its
