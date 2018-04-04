@@ -12,6 +12,9 @@ from geometry_msgs.msg import TwistStamped
 '''
 You can use this file to test your DBW code against a bag recorded with a reference implementation.
 The bag can be found at https://drive.google.com/open?id=0B2_h37bMVw3iT0ZEdlF4N01QbHc.
+New ROS bag: https://s3-us-west-1.amazonaws.com/udacity-selfdrivingcar/files/reference.bag.zip 
+ 
+To use the downloaded bag file, rename it to 'dbw_test.rosbag.bag' and place it in the CarND-Capstone/data folder 
 
 This file will produce 3 csv files which you can process to figure out how your DBW node is
 performing on various commands.
