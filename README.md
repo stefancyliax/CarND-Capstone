@@ -15,11 +15,11 @@ Patrick Schalast  | patrick.schalast@gmail.com        | @patrickschalast
 The goal of this project was to implement a complete stack that can drive a vehicle down a street and recognize and respect traffic lights. For this the [Robot Operating System](http://www.ros.org/) was used. 
 
 
-Project video: (Youtube link)
+Highway video: (Youtube link)
 
 [![Project track1](https://github.com/stefancyliax/CarND-Capstone/raw/master/imgs/track1.gif)](https://youtu.be/_33XWYFTFxg)
 
-Video with debugging output: (Youtube link)
+Test Lot Video: (Youtube link)
 
 [![Project track2](https://github.com/stefancyliax/CarND-Capstone/raw/master/imgs/track2.gif)](https://youtu.be/AKB_CoLEhTs)
 
