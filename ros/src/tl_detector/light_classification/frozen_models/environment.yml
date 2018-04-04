@@ -1,0 +1,13 @@
+name: tensorflow-1.3
+channels:
+    - https://conda.anaconda.org/menpo
+    - conda-forge
+dependencies:
+    - python==3.6
+    - numpy
+    - matplotlib
+    - jupyter
+    - pillow
+    - scipy
+    - pip:
+       - tensorflow-gpu==1.3
