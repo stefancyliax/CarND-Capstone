@@ -1,4 +1,49 @@
-This is the project repo for the final project of the Udacity Self-Driving Car Nanodegree: Programming a Real Self-Driving Car. For more information about the project, see the project introduction [here](https://classroom.udacity.com/nanodegrees/nd013/parts/6047fe34-d93c-4f50-8336-b70ef10cb4b2/modules/e1a23b06-329a-4684-a717-ad476f0d8dff/lessons/462c933d-9f24-42d3-8bdc-a08a5fc866e4/concepts/5ab4b122-83e6-436d-850f-9f4d26627fd9).
+# Udacity Project 13: Capstone
+[![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
+
+### Team Members
+
+
+Name              | E-Mail                            | Slack
+------------      | -------------                     | ------
+Stefan Cyliax     | stefan.cyliax@gmail.com           | @stefancyliax
+Paul Michalik     | paul.michalik@outlook.com         | @paul-michalik
+Frank Keidel      | f.keidel@gmx.de                   | @frankk
+Patrick Schalast  | patrick.schalast@gmail.com        | @patrickschalast
+
+
+The goal of this project was to implement a complete stack that can drive a vehicle down a street and recognize and respect traffic lights. For this the [Robot Operating System](http://www.ros.org/) was used. 
+
+
+Project video: (Youtube link)
+
+[![Project track1](https://github.com/stefancyliax/CarND-Capstone/raw/master/imgs/track1.gif)](https://youtu.be/_33XWYFTFxg)
+
+Video with debugging output: (Youtube link)
+
+[![Project track2](https://github.com/stefancyliax/CarND-Capstone/raw/master/imgs/track2.gif)](https://youtu.be/AKB_CoLEhTs)
+
+
+## Submission checklist and requirements
+
+- [x] Smoothly follow waypoints in the simulator.
+- [x] Respect the target top speed set for the waypoints' twist.twist.linear.x in waypoint_loader.py. Be sure to check that this is working by testing with different values for kph velocity parameter in /ros/src/waypoint_loader/launch/waypoint_loader.launch.
+- [x] If your vehicle adheres to the kph target top speed set here, then you have satisfied this requirement.
+- [x] Stop at traffic lights when needed.
+- [x] Stop and restart PID controllers depending on the state of /vehicle/dbw_enabled.
+- [x] Publish throttle, steering, and brake commands at 50hz.
+- [x] Launch correctly using the launch files provided in the capstone repo.
+
+## rqt_graph
+![rqt_graph](https://github.com/stefancyliax/CarND-Capstone/raw/master/imgs/rosgraph.png)
+
+
+
+
+---
+---
+# Udacity README
+
 
 Please use **one** of the two installation options, either native **or** docker installation.
 
