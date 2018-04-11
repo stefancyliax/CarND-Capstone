@@ -14,6 +14,10 @@ Patrick Schalast  | patrick.schalast@gmail.com        | @patrickschalast
 
 The goal of this project was to implement a complete stack that can drive a vehicle down a street and recognize and respect traffic lights. For this the [Robot Operating System](http://www.ros.org/) was used. 
 
+Real Parking Lot at Udacity: (Youtube link)
+
+[![Real Parking Lot at Udacity](https://github.com/stefancyliax/CarND-Capstone/raw/master/imgs/track3.gif)](https://www.youtube.com/watch?v=LB_6-3flmas)
+
 
 Highway video: (Youtube link)
 
